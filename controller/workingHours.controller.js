@@ -58,7 +58,7 @@ const updateEmployee_hour = async (req, res) => {
       where: {
         employee_id: req.params.eid,
         project_id: req.params.pid,
-        date: req.body.did,
+        date: req.body.date,
       },
     });
     const hour_minute = getHoursformTime(
