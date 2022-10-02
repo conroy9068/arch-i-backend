@@ -1,10 +1,8 @@
 const Sequelize = require("sequelize");
 
-const sequelize = new Sequelize("employees", "postgres", "shawon", {
-  host: "localhost",
-  dialect: "postgres",
-  operatorsAliases: false,
-});
+const sequelize = new Sequelize(
+  "postgres://dopdpvpm:JUY3VF-2yd9IvBaW-IoTHMXOK5wrOwd3@mouse.db.elephantsql.com/dopdpvpm"
+);
 const db = {};
 
 db.Sequelize = Sequelize;
