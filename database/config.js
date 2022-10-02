@@ -1,21 +1,22 @@
-const Sequelize = require("sequelize")
+const Sequelize = require("sequelize");
 
-const sequelize = new Sequelize("students", "postgres","shawon",{
-    host: 'localhost',
-    dialect: "postgres",
-    operatorsAliases: false,
-})
-const db = {}
+const sequelize = new Sequelize("employees", "postgres", "shawon", {
+  host: "localhost",
+  dialect: "postgres",
+  operatorsAliases: false,
+});
+const db = {};
 
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.student = require('./models/student')(sequelize,Sequelize)
-db.transaction = require('./models/transaction')(sequelize,Sequelize)
+db.employee = require("./models/employee")(sequelize, Sequelize);
+db.project = require("./models/project")(sequelize, Sequelize);
+db.employee_Hour = require("./models/employee_Hour")(sequelize, Sequelize);
+db.admin = require("./models/admin")(sequelize, Sequelize);
 
-db.student.hasOne(db.transaction,{
-    foreignKey: 'student_id',
-})
-
+// db.project.hasOne(db.employee_Hour, {
+//   foreignKey: "project_id",
+// });
 
 module.exports = db;

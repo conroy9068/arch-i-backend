@@ -1,13 +1,32 @@
-module.exports  = (app)=>{
-    const student = require('../controller/controller');
-    const transaction = require('../controller/controller');
+module.exports = (app) => {
+  const authController = require("../controller/auth.controller");
+  const employeeController = require("../controller/employee.controller");
+  const projectController = require("../controller/project.controller");
+  const workingHoursController = require("../controller/workingHours.controller");
+  const passport = require("passport");
 
-    app.post('/api/student', student.createOne);
-    app.get('/api/student', student.getAll);
-    app.get('/api/student/:id', student.getOne);
-    app.put('/api/student/:id', student.updateOne);
-    app.delete('/api/student/:id', student.deleteOne);
+  //create and get employee
+  app.post("/api/employee", employeeController.createEmployee);
+  app.get("/api/employees", employeeController.getAllEmployee);
 
+  //create and get project
+  app.post("/api/project", projectController.createProject);
+  app.get("/api/projects", projectController.getAllProject);
 
-    app.post('/api/transaction', transaction.createTransaction);
-}
+  //create, update and get working hours
+  app.post("/api/employee/hours", workingHoursController.createEmployee_hour);
+  app.put(
+    "/api/employee/:eid/:pid/:did/hours",
+    workingHoursController.updateEmployee_hour
+  );
+  app.get("/api/hours", workingHoursController.getHoursByEmployee);
+
+  //auth
+  app.post("/api/auth/register", authController.register);
+  app.post("/api/auth/login", authController.login);
+  app.get(
+    "/api/auth/protected",
+    passport.authenticate("jwt", { session: false }),
+    authController.protectedRoute
+  );
+};
