@@ -53,12 +53,13 @@ const manipulateData = (data) => {
 };
 
 const updateEmployee_hour = async (req, res) => {
+  const date = moment(req.body.date, "YYYY-MM-DD");
   try {
     const info = await Employee_Hour.findOne({
       where: {
         employee_id: req.params.eid,
         project_id: req.params.pid,
-        date: req.body.date,
+        date,
       },
     });
     const hour_minute = getHoursformTime(
