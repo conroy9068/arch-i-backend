@@ -19,6 +19,6 @@ db.sequelize.sync({ force: false }).then(() => {
 });
 require("./route/route")(app);
 
-app.listen(8000, () => {
+app.listen(process.env.PORT || 8000, () => {
   console.log("server is running at port 8000");
 });
