@@ -16,7 +16,7 @@ const getHoursformTime = (stime, etime) => {
   return hour_minute;
 };
 
-//reorganizing data
+//organizing data
 const manipulateData = (data) => {
   const chartData = [];
   let series;
@@ -24,14 +24,13 @@ const manipulateData = (data) => {
     const foundValue = chartData.find((value) => {
       return value.name == d.dataValues.project_id;
     });
-
     if (foundValue === undefined) {
       const hourData = [];
       hourData.push(parseFloat(d.dataValues.hours.toFixed(2)));
 
       series = {
         name: d.dataValues.project_id,
-        data: hourData,
+        hours: hourData,
         working_date: [d.dataValues.date],
       };
       chartData.push(series);
@@ -39,17 +38,46 @@ const manipulateData = (data) => {
       chartData.forEach((cd) => {
         if (cd.name === d.dataValues.project_id) {
           if (!cd.working_date.includes(d.dataValues.date)) {
-            cd.data.push(d.dataValues.hours);
+            cd.hours.push(d.dataValues.hours);
             cd.working_date.push(d.dataValues.date);
           } else {
             const index = cd.working_date.indexOf(d.dataValues.date);
-            cd.data[index] = cd.data[index] + d.dataValues.hours;
+            cd.hours[index] = cd.hours[index] + d.dataValues.hours;
           }
         }
       });
     }
   });
   return chartData;
+};
+//creating array based on given date
+const createDateArray = (sdate, edate) => {
+  var start = moment(sdate, "YYYY-MM-DD");
+  var end = moment(edate, "YYYY-MM-DD");
+  const total_date = moment.duration(end.diff(start)).asDays();
+
+  const newDateArray = [];
+  for (let i = 0; i <= total_date; i++) {
+    const dates = moment(sdate).add(i, "days").format("YYYY-MM-DD").toString();
+    newDateArray.push(dates);
+  }
+  return newDateArray;
+};
+
+//reorganizing data
+const findMissingDate = (data, sd, ed) => {
+  const dateArray = createDateArray("2022-09-20", "2022-09-23");
+  const newChart = [];
+  data.forEach((d) => {
+    for (let i = 0; i < dateArray.length; i++) {
+      if (dateArray[i] !== d.working_date[i]) {
+        d.hours.splice(i, 0, 0);
+        d.working_date.splice(i, 0, dateArray[i]);
+      }
+    }
+    console.log("\n");
+  });
+  return data;
 };
 
 const updateEmployee_hour = async (req, res) => {
@@ -118,7 +146,6 @@ const createEmployee_hour = async (req, res) => {
 };
 
 const getHoursByEmployee = async (req, res) => {
-  console.log(req.query);
   const employee = req.query.employee;
   const project = req.query.project;
   const sdate = req.query.sdate || "2022-09-20";
@@ -151,10 +178,12 @@ const getHoursByEmployee = async (req, res) => {
       order: [["date", "ASC"]],
     });
 
-    const chartData = manipulateData(data);
+    const dateHours = manipulateData(data);
+    const chartData = findMissingDate(dateHours, "2022-09-20");
+    console.log(chartData);
     res.status(200).json({
       status: true,
-      ChartData: chartData,
+      ChartData: dateHours,
     });
   } catch (err) {
     res.status(500).json({
