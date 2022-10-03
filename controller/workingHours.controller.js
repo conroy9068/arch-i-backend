@@ -53,48 +53,43 @@ const manipulateData = (data) => {
 };
 
 const updateEmployee_hour = async (req, res) => {
-  const date = moment(req.body.date, "YYYY-MM-DD");
   try {
     const info = await Employee_Hour.findOne({
       where: {
         employee_id: req.params.eid,
         project_id: req.params.pid,
-        date: date,
+        date: req.body.date,
       },
     });
+
     const hour_minute = getHoursformTime(
       info.dataValues.start_time,
       req.body.end_time
     );
-    try {
-      const data = await Employee_Hour.update(
-        {
-          end_time: req.body.end_time,
-          hours: hour_minute.toFixed(2),
+    const data = await Employee_Hour.update(
+      {
+        end_time: req.body.end_time,
+        hours: hour_minute.toFixed(2),
+      },
+      {
+        where: {
+          project_id: req.params.pid,
+          employee_id: req.params.eid,
+          date: req.body.date,
         },
-        {
-          where: {
-            project_id: req.params.pid,
-            employee_id: req.params.eid,
-            date: req.params.did,
-          },
-        }
-      );
-      res.status(200).json({
-        status: true,
-        message: data,
-      });
-    } catch (err) {
-      res.status(500).json({
-        status: false,
-        message: `${err} Something went wrong`,
-      });
-    }
+      }
+    );
+
+    res.status(200).json({
+      status: true,
+      message: data,
+    });
   } catch (err) {
     res.status(500).json({
       status: false,
       message: `${err} Something went wrong`,
     });
+    console.log(err);
   }
 };
 
