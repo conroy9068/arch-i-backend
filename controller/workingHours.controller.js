@@ -125,12 +125,18 @@ const updateEmployee_hour = async (req, res) => {
 };
 
 const createEmployee_hour = async (req, res) => {
+  let hour_minute = 0;
+  if (req.body.end_time) {
+    hour_minute = getHoursformTime(req.body.start_time, req.body.end_time);
+  }
   try {
     await Employee_Hour.create({
       employee_id: req.body.employee_id,
       project_id: req.body.project_id,
       date: req.body.date,
       start_time: req.body.start_time,
+      end_time: req.body.end_time,
+      hours: hour_minute,
     });
     res.status(200).json({
       status: true,
@@ -148,7 +154,7 @@ const getHoursByEmployee = async (req, res) => {
   const employee = req.query.employee;
   const project = req.query.project;
   const sdate = req.query.sdate || "2022-09-20";
-  const edate = req.query.edate || "2022-09-21";
+  const edate = req.query.edate || "2022-09-24";
 
   const query = {
     [Op.or]: [
