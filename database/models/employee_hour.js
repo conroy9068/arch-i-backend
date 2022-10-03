@@ -1,4 +1,3 @@
-const moment = require("moment");
 module.exports = (sequelize, Sequelize) => {
   const Employee_Hour = sequelize.define("employee_hour", {
     employee_id: {

@@ -1,6 +1,9 @@
 module.exports = (sequelize, Sequelize) => {
   const Project = sequelize.define("project", {
-    name: {
+    project_id: {
+      type: Sequelize.UUID,
+    },
+    project_name: {
       type: Sequelize.STRING(100),
     },
   });

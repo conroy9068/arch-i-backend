@@ -31,7 +31,7 @@ const manipulateData = (data) => {
 
       series = {
         name: d.dataValues.project_id,
-        hours: hourData,
+        data: hourData,
         working_date: [d.dataValues.date],
       };
       chartData.push(series);
@@ -53,54 +53,56 @@ const manipulateData = (data) => {
 };
 
 const updateEmployee_hour = async (req, res) => {
-  const targetDate = req.body.end_time.substring(0, 10);
   try {
     const info = await Employee_Hour.findOne({
       where: {
         employee_id: req.params.eid,
         project_id: req.params.pid,
-        date: targetDate,
+        date: req.body.date,
       },
     });
-
     const hour_minute = getHoursformTime(
       info.dataValues.start_time,
       req.body.end_time
     );
-    const data = await Employee_Hour.update(
-      {
-        end_time: req.body.end_time,
-        hours: hour_minute.toFixed(2),
-      },
-      {
-        where: {
-          project_id: req.params.pid,
-          employee_id: req.params.eid,
-          date: targetDate,
+    try {
+      const data = await Employee_Hour.update(
+        {
+          end_time: req.body.end_time,
+          hours: hour_minute.toFixed(2),
         },
-      }
-    );
-
-    res.status(200).json({
-      status: true,
-      message: data,
-    });
+        {
+          where: {
+            project_id: req.params.pid,
+            employee_id: req.params.eid,
+            date: req.body.date,
+          },
+        }
+      );
+      res.status(200).json({
+        status: true,
+        message: data,
+      });
+    } catch (err) {
+      res.status(500).json({
+        status: false,
+        message: `${err} Something went wrong`,
+      });
+    }
   } catch (err) {
     res.status(500).json({
       status: false,
       message: `${err} Something went wrong`,
     });
-    console.log(err);
   }
 };
 
 const createEmployee_hour = async (req, res) => {
-  const targetDate = req.body.start_time.substring(0, 10);
   try {
     await Employee_Hour.create({
       employee_id: req.body.employee_id,
       project_id: req.body.project_id,
-      date: targetDate,
+      date: req.body.date,
       start_time: req.body.start_time,
     });
     res.status(200).json({
