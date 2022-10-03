@@ -66,7 +66,7 @@ const createDateArray = (sdate, edate) => {
 
 //reorganizing data
 const findMissingDate = (data, sd, ed) => {
-  const dateArray = createDateArray("2022-09-20", "2022-09-23");
+  const dateArray = createDateArray(sd, ed);
   const newChart = [];
   data.forEach((d) => {
     for (let i = 0; i < dateArray.length; i++) {
@@ -75,7 +75,6 @@ const findMissingDate = (data, sd, ed) => {
         d.working_date.splice(i, 0, dateArray[i]);
       }
     }
-    console.log("\n");
   });
   return data;
 };
@@ -179,7 +178,7 @@ const getHoursByEmployee = async (req, res) => {
     });
 
     const dateHours = manipulateData(data);
-    const chartData = findMissingDate(dateHours, "2022-09-20");
+    const chartData = findMissingDate(dateHours, sdate, edate);
     console.log(chartData);
     res.status(200).json({
       status: true,
