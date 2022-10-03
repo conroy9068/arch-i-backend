@@ -125,18 +125,12 @@ const updateEmployee_hour = async (req, res) => {
 };
 
 const createEmployee_hour = async (req, res) => {
-  let hour_minute = 0;
-  if (req.body.end_time) {
-    hour_minute = getHoursformTime(req.body.start_time, req.body.end_time);
-  }
   try {
     await Employee_Hour.create({
       employee_id: req.body.employee_id,
       project_id: req.body.project_id,
       date: req.body.date,
       start_time: req.body.start_time,
-      end_time: req.body.end_time,
-      hours: hour_minute,
     });
     res.status(200).json({
       status: true,
