@@ -67,7 +67,6 @@ const createDateArray = (sdate, edate) => {
 //reorganizing data
 const findMissingDate = (data, sd, ed) => {
   const dateArray = createDateArray(sd, ed);
-  const newChart = [];
   data.forEach((d) => {
     for (let i = 0; i < dateArray.length; i++) {
       if (dateArray[i] !== d.working_date[i]) {
@@ -179,16 +178,18 @@ const getHoursByEmployee = async (req, res) => {
 
   try {
     const data = await Employee_Hour.findAll({
-      where: query,
-      order: [["date", "ASC"]],
+      // include: [db.project],
+      // where: query,
+      // order: [["date", "ASC"]],
     });
 
-    const dateHours = manipulateData(data);
-    const chartData = findMissingDate(dateHours, sdate, edate);
-    console.log(chartData);
+    console.log(data);
+    const chartData = manipulateData(data);
+    findMissingDate(chartData, sdate, edate);
+
     res.status(200).json({
       status: true,
-      ChartData: dateHours,
+      ChartData: chartData,
     });
   } catch (err) {
     res.status(500).json({

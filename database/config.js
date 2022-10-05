@@ -20,6 +20,23 @@ db.admin = require("./models/admin")(sequelize, Sequelize);
 
 // db.project.hasOne(db.employee_Hour, {
 //   foreignKey: "project_id",
+//   allowNull: false,
+//   unique: true,
+// });
+// db.employee_Hour.belongsTo(db.project, {
+//   foreignKey: "project_id",
+//   allowNull: false,
+//   unique: true,
+// });
+// db.employee.hasMany(db.employee_Hour, {
+//   foreignKey: "employee_id",
+//   allowNull: false,
+//   unique: true,
+// });
+// db.employee_Hour.belongsTo(db.employee, {
+//   foreignKey: "employee_id",
+//   allowNull: false,
+//   unique: true,
 // });
 
 module.exports = db;

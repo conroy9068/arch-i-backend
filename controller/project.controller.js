@@ -5,7 +5,7 @@ const createProject = async (req, res) => {
   console.log(req.body);
   try {
     await Project.create({
-      name: req.body.name,
+      project_name: req.body.name,
     });
     res.status(200).json({
       status: true,
