@@ -27,8 +27,8 @@ const manipulateData = (data) => {
     if (foundValue === undefined) {
       const hourData = [];
       hourData.push(parseFloat(d.dataValues.hours.toFixed(2)));
-
       series = {
+        project_name: d.dataValues.project.dataValues.project_name,
         name: d.dataValues.project_id,
         hours: hourData,
         working_date: [d.dataValues.date],
@@ -178,12 +178,11 @@ const getHoursByEmployee = async (req, res) => {
 
   try {
     const data = await Employee_Hour.findAll({
-      // include: [db.project],
-      // where: query,
-      // order: [["date", "ASC"]],
+      include: [{ model: db.project, as: "project" }],
+      where: query,
+      order: [["date", "ASC"]],
     });
 
-    console.log(data);
     const chartData = manipulateData(data);
     findMissingDate(chartData, sdate, edate);
 

@@ -16,7 +16,7 @@ module.exports = (app) => {
   //create, update and get working hours
   app.post("/api/employee/hours", workingHoursController.createEmployee_hour);
   app.put(
-    "/api/employee/:eid/:pid/hours",
+    "/api/employee/:eid/project/:pid/hours",
     workingHoursController.updateEmployee_hour
   );
   app.get("/api/hours", workingHoursController.getHoursByEmployee);

@@ -5,13 +5,13 @@ module.exports = (sequelize, Sequelize) => {
       employee_id: {
         type: Sequelize.STRING(),
       },
-      project_id: {
-        type: Sequelize.STRING(),
-        // references: {
-        //   model: "projects",
-        //   key: "project_id",
-        // },
-      },
+      // project_id: {
+      //   type: Sequelize.UUID,
+      //   // references: {
+      //   //   model: "projects",
+      //   //   key: "project_id",
+      //   // },
+      // },
       date: {
         type: Sequelize.DATEONLY,
       },
