@@ -21,7 +21,6 @@ module.exports = (sequelize, Sequelize) => {
       },
       end_time: {
         type: Sequelize.DATE,
-        defaultValue: "1971-01-01 00:00:00",
       },
       hours: {
         type: Sequelize.FLOAT(),
