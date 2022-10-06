@@ -218,7 +218,7 @@ const organizeData = (data, edata) => {
       project_name: d.dataValues.project.dataValues.project_name,
       start_time: d.dataValues.start_time,
     };
-    if (d.dataValues.end_time === "1971-01-01T00:00:00.000Z") {
+    if (d.dataValues.end_time === "1971-01-01 00:00:00 +0000") {
       employee_data.project = null;
     } else {
       employee_data.project.push(pdata);
