@@ -195,7 +195,7 @@ const getHoursByEmployee = async (req, res) => {
 
     res.status(200).json({
       status: true,
-      ChartData: data,
+      ChartData: chartData,
     });
   } catch (err) {
     res.status(500).json({
