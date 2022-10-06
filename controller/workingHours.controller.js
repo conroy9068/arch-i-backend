@@ -211,17 +211,17 @@ const organizeData = (data, edata) => {
     employee_id: edata.dataValues.employee_id,
     employee_name: edata.dataValues.name,
     total_hours: calculateHour(data),
-    project: [],
+    project: {},
   };
   data.forEach((d) => {
     const pdata = {
       project_name: d.dataValues.project.dataValues.project_name,
       start_time: d.dataValues.start_time,
     };
-    if (d.dataValues.end_time === "1971-01-01 00:00:00 +0000") {
+    if (d.dataValues.end_time === "1971-01-01 00:00:00") {
       employee_data.project = null;
     } else {
-      employee_data.project.push(pdata);
+      employee_data.project = pdata;
     }
   });
   return employee_data;
