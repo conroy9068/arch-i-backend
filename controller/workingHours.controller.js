@@ -214,12 +214,11 @@ const organizeData = (data, edata) => {
     project: [],
   };
   data.forEach((d) => {
-    const nullValue = d.dataValues.end_time;
     const pdata = {
       project_name: d.dataValues.project.dataValues.project_name,
       start_time: d.dataValues.start_time,
     };
-    if (nullValue === null) {
+    if (d.dataValues.end_time === "1971-01-01T00:00:00.000Z") {
       employee_data.project.push(pdata);
     }
   });
