@@ -211,7 +211,7 @@ const organizeData = (data, edata) => {
     employee_id: edata.dataValues.employee_id,
     employee_name: edata.dataValues.name,
     total_hours: calculateHour(data),
-    project: [],
+    project: null,
   };
   data.forEach((d) => {
     const pdata = {
