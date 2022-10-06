@@ -1,6 +1,5 @@
 const db = require("../database/config");
 Employee = db.employee;
-Employee_Hour = db.employee_Hour;
 
 const createEmployee = async (req, res) => {
   try {
@@ -33,23 +32,8 @@ const getAllEmployee = async (req, res) => {
     });
   }
 };
-const getSingleEmployee = async (req, res) => {
-  try {
-    const edata = await Employee.findByPk(req.params.eid);
-    res.status(200).json({
-      status: true,
-      data: edata,
-    });
-  } catch (err) {
-    res.status(500).json({
-      status: false,
-      message: `${err} Something went wrong`,
-    });
-  }
-};
 
 module.exports = {
   createEmployee,
   getAllEmployee,
-  getSingleEmployee,
 };
