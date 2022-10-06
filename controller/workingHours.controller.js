@@ -217,11 +217,10 @@ const organizeData = (data, edata) => {
     const pdata = {
       project_name: d.dataValues.project.dataValues.project_name,
       start_time: d.dataValues.start_time,
+      end_time: d.dataValues.end_time,
     };
-    console.log("endTime ", d.dataValues.end_time);
-    if (d.dataValues.end_time === null) {
-      employee_data.project.push(pdata);
-    }
+
+    employee_data.project.push(pdata);
   });
   if (employee_data.project.length === 0) {
     employee_data.project = null;
