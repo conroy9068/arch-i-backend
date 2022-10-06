@@ -151,10 +151,16 @@ const createEmployee_hour = async (req, res) => {
 };
 
 const getHoursByEmployee = async (req, res) => {
+  const today = moment().format("YYYY-MM-DD").toString();
+  const pastSeven = moment(today)
+    .subtract(7, "days")
+    .format("YYYY-MM-DD")
+    .toString();
+
   const employee = req.query.employee;
   const project = req.query.project;
-  const sdate = req.query.sdate || "2022-09-20";
-  const edate = req.query.edate || "2022-09-24";
+  const sdate = req.query.sdate || pastSeven;
+  const edate = req.query.edate || today;
 
   const query = {
     [Op.or]: [
@@ -189,7 +195,7 @@ const getHoursByEmployee = async (req, res) => {
 
     res.status(200).json({
       status: true,
-      ChartData: chartData,
+      ChartData: data,
     });
   } catch (err) {
     res.status(500).json({
@@ -204,7 +210,7 @@ const calculateHour = (data) => {
   data.forEach((d) => {
     total_hours = total_hours + d.dataValues.hours;
   });
-  return total_hours;
+  return total_hours.toFixed(2);
 };
 const organizeData = (data, edata) => {
   const employee_data = {
@@ -214,10 +220,13 @@ const organizeData = (data, edata) => {
     project: null,
   };
   data.forEach((d) => {
+    const time = moment(d.dataValues.start_time)
+      .format("YYYY-MM-DD H:m:s")
+      .toString();
     const pdata = {
       project_id: d.dataValues.project.dataValues.project_id,
       project_name: d.dataValues.project.dataValues.project_name,
-      start_time: d.dataValues.start_time,
+      start_time: time,
     };
     if (!d.dataValues.end_time) {
       employee_data.project = pdata;
