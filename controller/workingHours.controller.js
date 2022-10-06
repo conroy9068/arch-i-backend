@@ -231,6 +231,7 @@ const organizeData = (data, edata) => {
 const getSingleEmployeeProject = async (req, res) => {
   try {
     const today = moment().format("YYYY-MM-DD").toString();
+    console.log(today);
     const edata = await Employee.findByPk(req.params.eid);
     const data = await Employee_Hour.findAll({
       // attributes: [
