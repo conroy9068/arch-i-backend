@@ -218,7 +218,7 @@ const organizeData = (data, edata) => {
       project_name: d.dataValues.project.dataValues.project_name,
       start_time: d.dataValues.start_time,
     };
-    if (d.dataValues.end_time === null || !d.dataValues.end_time) {
+    if (!d.dataValues.end_time) {
       employee_data.project.push(pdata);
     }
   });
