@@ -130,7 +130,7 @@ const createEmployee_hour = async (req, res) => {
     hour_minute = getHoursformTime(req.body.start_time, req.body.end_time);
   }
   try {
-    await Employee_Hour.create({
+    const data = await Employee_Hour.create({
       employee_id: req.body.employee_id,
       project_id: req.body.project_id,
       date: req.body.date,
@@ -140,7 +140,7 @@ const createEmployee_hour = async (req, res) => {
     });
     res.status(200).json({
       status: true,
-      message: `Data was inserted`,
+      message: data,
     });
   } catch (err) {
     res.status(500).json({
@@ -222,21 +222,21 @@ const organizeData = (data, edata) => {
       employee_data.project.push(pdata);
     }
   });
+  console.log(employee_data.project.length);
   if (employee_data.project.length === 0) {
     employee_data.project = null;
   }
   return employee_data;
 };
 const getSingleEmployeeProject = async (req, res) => {
-  const today = moment();
-  today.format("YYYY-MM-DD").toString();
   try {
+    const today = moment().format("YYYY-MM-DD").toString();
     const edata = await Employee.findByPk(req.params.eid);
     const data = await Employee_Hour.findAll({
       // attributes: [
       //   [Sequelize.fn("DISTINCT", Sequelize.col("project_id")), "project_id"],
       // ],
-      where: { employee_id: req.params.eid, date: "2022-09-22" },
+      where: { employee_id: req.params.eid, date: today },
       include: [{ model: db.project, as: "project" }],
     });
     //console.log(data);
