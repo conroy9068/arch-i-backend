@@ -3,26 +3,39 @@ module.exports = (app) => {
   const employeeController = require("../controller/employee.controller");
   const projectController = require("../controller/project.controller");
   const workingHoursController = require("../controller/workingHours.controller");
+  const contructorController = require("../controller/contructor.controller");
   const passport = require("passport");
 
   //create and get employee
-  app.post("/api/employee", employeeController.createEmployee);
-  app.get("/api/employees", employeeController.getAllEmployee);
+  app.post("/api/v1/employee", employeeController.createEmployee);
+  app.get("/api/v1/employees", employeeController.getAllEmployee);
 
   //create and get project
-  app.post("/api/project", projectController.createProject);
-  app.get("/api/projects", projectController.getAllProject);
+  app.post("/api/v1/project", projectController.createProject);
+  app.get("/api/v1/projects", projectController.getAllProject);
 
   //create, update and get working hours
-  app.post("/api/employee/hours", workingHoursController.createEmployee_hour);
+  app.post(
+    "/api/v1/employee/hours",
+    workingHoursController.createEmployee_hour
+  );
   app.put(
-    "/api/employee/:eid/project/:pid/end_hours",
+    "/api/v1/employee/:eid/project/:pid/end_hours",
     workingHoursController.updateEmployee_hour
   );
-  app.get("/api/hours", workingHoursController.getHoursByEmployee);
+  app.get("/api/v1/hours", workingHoursController.getHoursByEmployee);
   app.get(
-    "/api/employee/:eid",
+    "/api/v1/employee/:eid",
     workingHoursController.getSingleEmployeeProject
+  );
+
+  //Contructor
+  app.post("/api/v1/contructors/signin", contructorController.createContructor);
+  app.patch("/api/v1/contructors/:cid", contructorController.updateContructor);
+  app.get("/api/v1/contructors", contructorController.getContructorList);
+  app.get(
+    "/api/v1/admin/contructors",
+    contructorController.getContructorListAdmin
   );
 
   //auth

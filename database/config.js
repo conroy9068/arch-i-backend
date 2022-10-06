@@ -17,6 +17,7 @@ db.employee = require("./models/employee")(sequelize, Sequelize);
 db.project = require("./models/project")(sequelize, Sequelize);
 db.employee_Hour = require("./models/employee_hour")(sequelize, Sequelize);
 db.admin = require("./models/admin")(sequelize, Sequelize);
+db.contructor = require("./models/contructor")(sequelize, Sequelize);
 
 db.project.hasMany(db.employee_Hour, {
   foreignKey: "project_id",

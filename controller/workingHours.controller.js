@@ -140,7 +140,7 @@ const createEmployee_hour = async (req, res) => {
     });
     res.status(200).json({
       status: true,
-      message: data,
+      data: data,
     });
   } catch (err) {
     res.status(500).json({
@@ -215,6 +215,7 @@ const organizeData = (data, edata) => {
   };
   data.forEach((d) => {
     const pdata = {
+      project_id: d.dataValues.project.dataValues.project_id,
       project_name: d.dataValues.project.dataValues.project_name,
       start_time: d.dataValues.start_time,
     };
@@ -229,7 +230,6 @@ const organizeData = (data, edata) => {
 const getSingleEmployeeProject = async (req, res) => {
   try {
     const today = moment().format("YYYY-MM-DD").toString();
-    console.log(today);
     const edata = await Employee.findByPk(req.params.eid);
     const data = await Employee_Hour.findAll({
       // attributes: [
