@@ -211,7 +211,7 @@ const organizeData = (data, edata) => {
     employee_id: edata.dataValues.employee_id,
     employee_name: edata.dataValues.name,
     total_hours: calculateHour(data),
-    project: null,
+    project: [],
   };
   data.forEach((d) => {
     const pdata = {
@@ -222,6 +222,9 @@ const organizeData = (data, edata) => {
       employee_data.project.push(pdata);
     }
   });
+  if (employee_data.project.length === 0) {
+    employee_data.project = null;
+  }
   return employee_data;
 };
 const getSingleEmployeeProject = async (req, res) => {
