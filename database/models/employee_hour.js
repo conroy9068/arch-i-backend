@@ -3,7 +3,7 @@ module.exports = (sequelize, Sequelize) => {
     "employee_hour",
     {
       employee_id: {
-        type: Sequelize.STRING(),
+        type: Sequelize.UUID,
       },
       // project_id: {
       //   type: Sequelize.UUID,
@@ -20,9 +20,7 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.DATE,
       },
       end_time: {
-        allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: "1971-01-01 00:00:00",
       },
       hours: {
         type: Sequelize.FLOAT(),

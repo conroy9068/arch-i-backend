@@ -1,7 +1,8 @@
 const db = require("../database/config");
 const moment = require("moment");
-const { Op } = require("sequelize");
+const { Op, Sequelize } = require("sequelize");
 Employee_Hour = db.employee_Hour;
+Employee = db.employee;
 
 //Calculating hours
 const getHoursformTime = (stime, etime) => {
@@ -22,21 +23,21 @@ const manipulateData = (data) => {
   let series;
   data.forEach((d) => {
     const foundValue = chartData.find((value) => {
-      return value.name == d.dataValues.project_id;
+      return value.project_id == d.dataValues.project_id;
     });
     if (foundValue === undefined) {
       const hourData = [];
       hourData.push(parseFloat(d.dataValues.hours.toFixed(2)));
       series = {
         project_name: d.dataValues.project.dataValues.project_name,
-        name: d.dataValues.project_id,
+        project_id: d.dataValues.project_id,
         hours: hourData,
         working_date: [d.dataValues.date],
       };
       chartData.push(series);
     } else {
       chartData.forEach((cd) => {
-        if (cd.name === d.dataValues.project_id) {
+        if (cd.project_id === d.dataValues.project_id) {
           if (!cd.working_date.includes(d.dataValues.date)) {
             cd.hours.push(d.dataValues.hours);
             cd.working_date.push(d.dataValues.date);
@@ -198,8 +199,60 @@ const getHoursByEmployee = async (req, res) => {
   }
 };
 
+const calculateHour = (data) => {
+  let total_hours = 0;
+  data.forEach((d) => {
+    total_hours = total_hours + d.dataValues.hours;
+  });
+  return total_hours;
+};
+const organizeData = (data, edata) => {
+  const employee_data = {
+    employee_id: edata.dataValues.employee_id,
+    employee_name: edata.dataValues.name,
+    total_hours: calculateHour(data),
+    project: [],
+  };
+  data.forEach((d) => {
+    const pdata = {
+      project_name: d.dataValues.project.dataValues.project_name,
+      start_time: d.dataValues.start_time,
+    };
+    if (d.dataValues.end_time === null) {
+      employee_data.project.push(pdata);
+    }
+  });
+  return employee_data;
+};
+const getSingleEmployeeProject = async (req, res) => {
+  const today = moment();
+  today.format("YYYY-MM-DD").toString();
+  try {
+    const edata = await Employee.findByPk(req.params.eid);
+    const data = await Employee_Hour.findAll({
+      // attributes: [
+      //   [Sequelize.fn("DISTINCT", Sequelize.col("project_id")), "project_id"],
+      // ],
+      where: { employee_id: req.params.eid, date: "2022-09-22" },
+      include: [{ model: db.project, as: "project" }],
+    });
+    //console.log(data);
+    const employee_data = organizeData(data, edata);
+    res.status(200).json({
+      status: true,
+      data: employee_data,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: false,
+      message: `${err} Something went wrong`,
+    });
+  }
+};
+
 module.exports = {
   updateEmployee_hour,
   createEmployee_hour,
   getHoursByEmployee,
+  getSingleEmployeeProject,
 };

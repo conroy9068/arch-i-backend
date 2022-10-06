@@ -8,6 +8,7 @@ module.exports = (app) => {
   //create and get employee
   app.post("/api/employee", employeeController.createEmployee);
   app.get("/api/employees", employeeController.getAllEmployee);
+  app.get("/api/employee/:eid", employeeController.getSingleEmployee);
 
   //create and get project
   app.post("/api/project", projectController.createProject);
@@ -20,6 +21,10 @@ module.exports = (app) => {
     workingHoursController.updateEmployee_hour
   );
   app.get("/api/hours", workingHoursController.getHoursByEmployee);
+  app.get(
+    "/api/employee_project/:eid",
+    workingHoursController.getSingleEmployeeProject
+  );
 
   //auth
   app.post("/api/auth/register", authController.register);
