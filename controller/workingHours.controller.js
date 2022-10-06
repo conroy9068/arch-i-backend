@@ -219,12 +219,11 @@ const organizeData = (data, edata) => {
       start_time: d.dataValues.start_time,
     };
     if (d.dataValues.end_time === "1971-01-01T00:00:00.000Z") {
+      employee_data.project = null;
+    } else {
       employee_data.project.push(pdata);
     }
   });
-  if (employee_data.project.length === 0) {
-    employee_data.project = null;
-  }
   return employee_data;
 };
 const getSingleEmployeeProject = async (req, res) => {
