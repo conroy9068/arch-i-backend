@@ -219,9 +219,9 @@ const organizeData = (data, edata) => {
       start_time: d.dataValues.start_time,
     };
     if (!d.dataValues.end_time) {
-      employee_data.project = null;
-    } else {
       employee_data.project = pdata;
+    } else {
+      employee_data.project = null;
     }
   });
   return employee_data;
