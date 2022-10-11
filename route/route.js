@@ -9,10 +9,14 @@ module.exports = (app) => {
   //create and get employee
   app.post("/api/v1/employee", employeeController.createEmployee);
   app.get("/api/v1/employees", employeeController.getAllEmployee);
+  app.put("/api/v1/employees/:eid", employeeController.updateEmployee);
+  app.delete("/api/v1/employees/:eid", employeeController.deleteEmployee);
 
   //create and get project
   app.post("/api/v1/project", projectController.createProject);
   app.get("/api/v1/projects", projectController.getAllProject);
+  app.put("/api/v1/projects/:pid", projectController.updateProject);
+  app.delete("/api/v1/projects/:pid", projectController.deleteProject);
 
   //create, update and get working hours
   app.post(
@@ -22,6 +26,14 @@ module.exports = (app) => {
   app.put(
     "/api/v1/employee/:eid/project/:pid/end_hours",
     workingHoursController.updateEmployee_hour
+  );
+  app.put(
+    "/api/v1/employees/:eid/project/:pid/end_hours",
+    workingHoursController.editEmployee_hour
+  );
+  app.delete(
+    "/api/v1/employee/:eid/project/:pid/end_hours",
+    workingHoursController.deleteEmployee_hour
   );
   app.get("/api/v1/hours", workingHoursController.getHoursByEmployee);
   app.get(
@@ -36,6 +48,14 @@ module.exports = (app) => {
   app.get(
     "/api/v1/admin/contructors",
     contructorController.getContructorListAdmin
+  );
+  app.put(
+    "/api/v1/admin/contructors/:cid",
+    contructorController.editContructor
+  );
+  app.delete(
+    "/api/v1/admin/contructors/:cid",
+    contructorController.deleteContructor
   );
 
   //auth

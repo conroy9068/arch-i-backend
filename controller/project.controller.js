@@ -33,8 +33,48 @@ const getAllProject = async (req, res) => {
     });
   }
 };
-
+const updateProject = async (req, res) => {
+  try {
+    await Project.update(
+      {
+        project_name: req.body.name,
+      },
+      {
+        where: {
+          project_id: req.params.pid,
+        },
+      }
+    );
+    res.status(200).json({
+      status: true,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: false,
+      message: `${err} Something went wrong`,
+    });
+  }
+};
+const deleteProject = async (req, res) => {
+  try {
+    await Project.destroy({
+      where: {
+        project_id: req.params.pid,
+      },
+    });
+    res.status(200).json({
+      status: true,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: false,
+      message: `${err} Something went wrong`,
+    });
+  }
+};
 module.exports = {
   createProject,
   getAllProject,
+  deleteProject,
+  updateProject,
 };

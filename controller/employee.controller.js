@@ -32,8 +32,49 @@ const getAllEmployee = async (req, res) => {
     });
   }
 };
+const updateEmployee = async (req, res) => {
+  try {
+    await Employee.update(
+      {
+        name: req.body.name,
+      },
+      {
+        where: {
+          employee_id: req.params.eid,
+        },
+      }
+    );
+    res.status(200).json({
+      status: true,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: false,
+      message: `${err} Something went wrong`,
+    });
+  }
+};
+const deleteEmployee = async (req, res) => {
+  try {
+    await Employee.destroy({
+      where: {
+        employee_id: req.params.eid,
+      },
+    });
+    res.status(200).json({
+      status: true,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: false,
+      message: `${err} Something went wrong`,
+    });
+  }
+};
 
 module.exports = {
   createEmployee,
   getAllEmployee,
+  deleteEmployee,
+  updateEmployee,
 };

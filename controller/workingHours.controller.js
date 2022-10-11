@@ -14,7 +14,7 @@ const getHoursformTime = (stime, etime) => {
   const hour_minute = parseFloat(
     parseInt(duration / 60) + "." + parseInt(duration % 60)
   );
-  return hour_minute;
+  return hour_minute.toFixed(2);
 };
 
 //organizing data
@@ -96,7 +96,7 @@ const updateEmployee_hour = async (req, res) => {
       const data = await Employee_Hour.update(
         {
           end_time: req.body.end_time,
-          hours: hour_minute.toFixed(2),
+          hours: hour_minute,
         },
         {
           where: {
@@ -261,9 +261,61 @@ const getSingleEmployeeProject = async (req, res) => {
   }
 };
 
+const editEmployee_hour = async (req, res) => {
+  try {
+    await Employee_Hour.update(
+      {
+        employee_id: req.body.employee_id,
+        project_id: req.body.project_id,
+        date: req.body.date,
+        start_time: req.body.start_time,
+        end_time: req.body.end_time,
+        hours: req.body.hours,
+      },
+      {
+        where: {
+          project_id: req.params.pid,
+          employee_id: req.params.eid,
+          date: req.body.date,
+        },
+      }
+    );
+    res.status(200).json({
+      status: true,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: false,
+      message: `${err} Something went wrong`,
+    });
+  }
+};
+
+const deleteEmployee_hour = async (req, res) => {
+  try {
+    await Employee_Hour.destroy({
+      where: {
+        project_id: req.params.pid,
+        employee_id: req.params.eid,
+        date: req.body.date,
+      },
+    });
+    res.status(200).json({
+      status: true,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: false,
+      message: `${err} Something went wrong`,
+    });
+  }
+};
+
 module.exports = {
   updateEmployee_hour,
   createEmployee_hour,
   getHoursByEmployee,
   getSingleEmployeeProject,
+  deleteEmployee_hour,
+  editEmployee_hour,
 };
