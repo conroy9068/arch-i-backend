@@ -267,8 +267,8 @@ const organizeEmployeeData = (data, edata) => {
     const info = {
       project_id: d.dataValues.project.dataValues.project_id,
       project_name: d.dataValues.project.dataValues.project_name,
-      start_date: d.dataValues.start_time,
-      end_date: d.dataValues.end_time,
+      start_time: d.dataValues.start_time,
+      end_time: d.dataValues.end_time,
       hours: d.dataValues.hours,
     };
     edata.forEach((ed) => {
