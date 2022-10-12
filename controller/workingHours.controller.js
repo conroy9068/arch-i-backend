@@ -270,6 +270,7 @@ const organizeEmployeeData = (data, edata) => {
       start_time: d.dataValues.start_time,
       end_time: d.dataValues.end_time,
       hours: d.dataValues.hours,
+      date: d.dataValues.date,
     };
     edata.forEach((ed) => {
       if (d.dataValues.employee_id === ed.dataValues.employee_id) {
