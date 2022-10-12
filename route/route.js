@@ -40,6 +40,7 @@ module.exports = (app) => {
     "/api/v1/employee/:eid",
     workingHoursController.getSingleEmployeeProject
   );
+  app.get("/api/v1/allemployees", workingHoursController.getAllEmployee);
 
   //Contructor
   app.post("/api/v1/contructors/signin", contructorController.createContructor);

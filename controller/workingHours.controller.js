@@ -261,6 +261,65 @@ const getSingleEmployeeProject = async (req, res) => {
   }
 };
 
+const organizeEmployeeData = (data, edata) => {
+  const employee_data = [];
+  data.forEach((d) => {
+    const info = {
+      project_id: d.dataValues.project.dataValues.project_id,
+      project_name: d.dataValues.project.dataValues.project_name,
+      start_date: d.dataValues.start_time,
+      end_date: d.dataValues.end_time,
+      hours: d.dataValues.hours,
+    };
+    edata.forEach((ed) => {
+      if (d.dataValues.employee_id === ed.dataValues.employee_id) {
+        (info.employee_id = ed.dataValues.employee_id),
+          (info.employee_name = ed.dataValues.name);
+      }
+    });
+    employee_data.push(info);
+  });
+
+  return employee_data;
+};
+
+const getAllEmployee = async (req, res) => {
+  try {
+    const today = moment().format("YYYY-MM-DD").toString();
+    const pastSeven = moment(today)
+      .subtract(7, "days")
+      .format("YYYY-MM-DD")
+      .toString();
+
+    const sdate = req.query.sdate || pastSeven;
+    const edate = req.query.edate || today;
+
+    const edata = await Employee.findAll();
+    const data = await Employee_Hour.findAll({
+      where: {
+        [Op.or]: [
+          {
+            date: {
+              [Op.between]: [sdate, edate],
+            },
+          },
+        ],
+      },
+      include: [{ model: db.project, as: "project" }],
+    });
+    const employee_data = organizeEmployeeData(data, edata);
+    res.status(200).json({
+      status: true,
+      data: employee_data,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: false,
+      message: `${err} Something went wrong`,
+    });
+  }
+};
+
 const editEmployee_hour = async (req, res) => {
   try {
     await Employee_Hour.update(
@@ -318,4 +377,5 @@ module.exports = {
   getSingleEmployeeProject,
   deleteEmployee_hour,
   editEmployee_hour,
+  getAllEmployee,
 };
