@@ -357,7 +357,7 @@ const deleteEmployee_hour = async (req, res) => {
       where: {
         project_id: req.params.pid,
         employee_id: req.params.eid,
-        date: req.body.date,
+        date: req.params.dt,
       },
     });
     res.status(200).json({
