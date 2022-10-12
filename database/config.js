@@ -1,14 +1,14 @@
 const Sequelize = require("sequelize");
 
-const sequelize = new Sequelize(
-  "postgres://dopdpvpm:JUY3VF-2yd9IvBaW-IoTHMXOK5wrOwd3@mouse.db.elephantsql.com/dopdpvpm"
-  // "postgres://ugtjwlcq:MXYPvhQ7jB-cL-2usLAJ2pV0M9rLlyOc@peanut.db.elephantsql.com/ugtjwlcq"
-);
-// const sequelize = new Sequelize("employees", "postgres", "shawon", {
-//   host: "localhost",
-//   dialect: "postgres",
-//   operatorsAliases: false,
-// });
+// const sequelize = new Sequelize(
+//   "postgres://dopdpvpm:JUY3VF-2yd9IvBaW-IoTHMXOK5wrOwd3@mouse.db.elephantsql.com/dopdpvpm"
+//   // "postgres://ugtjwlcq:MXYPvhQ7jB-cL-2usLAJ2pV0M9rLlyOc@peanut.db.elephantsql.com/ugtjwlcq"
+// );
+const sequelize = new Sequelize("employees", "postgres", "shawon", {
+  host: "localhost",
+  dialect: "postgres",
+  operatorsAliases: false,
+});
 const db = {};
 
 db.Sequelize = Sequelize;

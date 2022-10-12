@@ -352,6 +352,7 @@ const editEmployee_hour = async (req, res) => {
 };
 
 const deleteEmployee_hour = async (req, res) => {
+  console.log(req.params);
   try {
     await Employee_Hour.destroy({
       where: {

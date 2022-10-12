@@ -32,7 +32,7 @@ module.exports = (app) => {
     workingHoursController.editEmployee_hour
   );
   app.delete(
-    "/api/v1/employee/:eid/project/:pid/date/dt/end_hours",
+    "/api/v1/employee/:eid/project/:pid/date/:dt/end_hours",
     workingHoursController.deleteEmployee_hour
   );
   app.get("/api/v1/hours", workingHoursController.getHoursByEmployee);
