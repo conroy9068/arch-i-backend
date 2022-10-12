@@ -352,18 +352,23 @@ const editEmployee_hour = async (req, res) => {
 };
 
 const deleteEmployee_hour = async (req, res) => {
-  console.log(req.params);
   try {
-    await Employee_Hour.destroy({
+    const data = await Employee_Hour.destroy({
       where: {
         project_id: req.params.pid,
         employee_id: req.params.eid,
         date: req.params.dt,
       },
     });
-    res.status(200).json({
-      status: true,
-    });
+    if (data === 0) {
+      res.status(404).json({
+        status: false,
+      });
+    } else {
+      res.status(200).json({
+        status: true,
+      });
+    }
   } catch (err) {
     res.status(500).json({
       status: false,

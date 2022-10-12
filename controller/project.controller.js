@@ -57,14 +57,20 @@ const updateProject = async (req, res) => {
 };
 const deleteProject = async (req, res) => {
   try {
-    await Project.destroy({
+    const data = await Project.destroy({
       where: {
         project_id: req.params.pid,
       },
     });
-    res.status(200).json({
-      status: true,
-    });
+    if (data === 0) {
+      res.status(404).json({
+        status: false,
+      });
+    } else {
+      res.status(200).json({
+        status: true,
+      });
+    }
   } catch (err) {
     res.status(500).json({
       status: false,
