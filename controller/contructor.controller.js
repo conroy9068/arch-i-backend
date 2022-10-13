@@ -17,6 +17,8 @@ const formatTime = (data) => {
         .format("YYYY-MM-DD H:m:s")
         .toString();
       d.dataValues.end_time = etime;
+    } else {
+      d.dataValues.end_time = null;
     }
   });
 };
