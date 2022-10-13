@@ -1,5 +1,25 @@
 const db = require("../database/config");
+const moment = require("moment");
 Contructor = db.contructor;
+
+//format time
+const formatTime = (data) => {
+  data.forEach((d) => {
+    if (d.dataValues.start_time) {
+      const stime = moment(d.dataValues.start_time)
+        .format("YYYY-MM-DD H:m:s")
+        .toString();
+      d.dataValues.start_time = stime;
+    }
+
+    if (d.dataValues.end_time) {
+      const etime = moment(d.dataValues.end_time)
+        .format("YYYY-MM-DD H:m:s")
+        .toString();
+      d.dataValues.end_time = etime;
+    }
+  });
+};
 
 const createContructor = async (req, res) => {
   try {
@@ -45,11 +65,13 @@ const getContructorList = async (req, res) => {
   const contructorList = [];
   try {
     const data = await Contructor.findAll();
+    formatTime(data);
     data.forEach((d) => {
       if (!d.dataValues.end_time) {
         contructorList.push(d.dataValues);
       }
     });
+
     res.status(200).json({
       status: true,
       data: contructorList,
@@ -67,6 +89,7 @@ const getContructorListAdmin = async (req, res) => {
     const data = await Contructor.findAll({
       order: [["createdAt", "DESC"]],
     });
+    formatTime(data);
     res.status(200).json({
       status: true,
       data,
