@@ -322,8 +322,11 @@ const getAllEmployee = async (req, res) => {
 };
 
 const editEmployee_hour = async (req, res) => {
+  const modifiedDate = moment(req.body.start_time)
+    .format("YYYY-MM-DD")
+    .toString();
   try {
-    await Employee_Hour.update(
+    const data = await Employee_Hour.update(
       {
         employee_id: req.body.employee_id,
         project_id: req.body.project_id,
@@ -336,13 +339,19 @@ const editEmployee_hour = async (req, res) => {
         where: {
           project_id: req.params.pid,
           employee_id: req.params.eid,
-          date: req.body.date,
+          date: modifiedDate,
         },
       }
     );
-    res.status(200).json({
-      status: true,
-    });
+    if (data[0] === 0) {
+      res.status(404).json({
+        status: false,
+      });
+    } else {
+      res.status(200).json({
+        status: true,
+      });
+    }
   } catch (err) {
     res.status(500).json({
       status: false,
