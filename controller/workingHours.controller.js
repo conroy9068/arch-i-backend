@@ -228,6 +228,7 @@ const organizeData = (data, edata) => {
       project_name: d.dataValues.project.dataValues.project_name,
       start_time: time,
     };
+    console.log(d.dataValues.end_time);
     if (!d.dataValues.end_time) {
       employee_data.project = pdata;
     } else {
