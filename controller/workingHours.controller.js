@@ -264,12 +264,16 @@ const getSingleEmployeeProject = async (req, res) => {
 const organizeEmployeeData = (data, edata) => {
   const employee_data = [];
   data.forEach((d) => {
+    let etime = null;
     const stime = moment(d.dataValues.start_time)
       .format("YYYY-MM-DD H:m:s")
       .toString();
-    const etime = moment(d.dataValues.end_time)
-      .format("YYYY-MM-DD H:m:s")
-      .toString();
+    if (d.dataValues.end_time) {
+      etime = moment(d.dataValues.end_time)
+        .format("YYYY-MM-DD H:m:s")
+        .toString();
+    }
+
     const info = {
       project_id: d.dataValues.project.dataValues.project_id,
       project_name: d.dataValues.project.dataValues.project_name,
