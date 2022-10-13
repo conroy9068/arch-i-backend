@@ -4,7 +4,7 @@ Contructor = db.contructor;
 const createContructor = async (req, res) => {
   try {
     await Contructor.create({
-      contructor_name: req.body.name,
+      name: req.body.name,
       companyName: req.body.companyName,
       signature: req.body.signature,
       start_time: req.body.start_time,
@@ -65,7 +65,7 @@ const getContructorList = async (req, res) => {
 const getContructorListAdmin = async (req, res) => {
   try {
     const data = await Contructor.findAll({
-      order: [["start_time", "DESC"]],
+      order: [["createdAt", "DESC"]],
     });
     res.status(200).json({
       status: true,
