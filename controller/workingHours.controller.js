@@ -151,39 +151,39 @@ const createEmployee_hour = async (req, res) => {
 };
 
 const getHoursByEmployee = async (req, res) => {
-  const today = moment().format("YYYY-MM-DD").toString();
-  const pastSeven = moment(today)
-    .subtract(7, "days")
-    .format("YYYY-MM-DD")
-    .toString();
-
-  const employee = req.query.employee;
-  const project = req.query.project;
-  const sdate = req.query.sdate || pastSeven;
-  const edate = req.query.edate || today;
-
-  const query = {
-    [Op.or]: [
-      {
-        date: {
-          [Op.between]: [sdate, edate],
-        },
-      },
-    ],
-  };
-
-  if (employee && project) {
-    query.employee_id = employee;
-    query.project_id = project;
-  }
-  if (employee) {
-    query.employee_id = employee;
-  }
-  if (project) {
-    query.project_id = project;
-  }
-
   try {
+    const today = moment().format("YYYY-MM-DD").toString();
+    const pastSeven = moment(today)
+      .subtract(7, "days")
+      .format("YYYY-MM-DD")
+      .toString();
+
+    const employee = req.query.employee;
+    const project = req.query.project;
+    const sdate = req.query.sdate || pastSeven;
+    const edate = req.query.edate || today;
+
+    const query = {
+      [Op.or]: [
+        {
+          date: {
+            [Op.between]: [sdate, edate],
+          },
+        },
+      ],
+    };
+
+    if (employee && project) {
+      query.employee_id = employee;
+      query.project_id = project;
+    }
+    if (employee) {
+      query.employee_id = employee;
+    }
+    if (project) {
+      query.project_id = project;
+    }
+
     const data = await Employee_Hour.findAll({
       include: [{ model: db.project, as: "project" }],
       where: query,
@@ -305,17 +305,30 @@ const getAllEmployee = async (req, res) => {
     const sdate = req.query.sdate || pastSeven;
     const edate = req.query.edate || today;
 
+    const query = {
+      [Op.or]: [
+        {
+          date: {
+            [Op.between]: [sdate, edate],
+          },
+        },
+      ],
+    };
+
+    if (employee && project) {
+      query.employee_id = employee;
+      query.project_id = project;
+    }
+    if (employee) {
+      query.employee_id = employee;
+    }
+    if (project) {
+      query.project_id = project;
+    }
+
     const edata = await Employee.findAll();
     const data = await Employee_Hour.findAll({
-      where: {
-        [Op.or]: [
-          {
-            date: {
-              [Op.between]: [sdate, edate],
-            },
-          },
-        ],
-      },
+      where: query,
       include: [{ model: db.project, as: "project" }],
     });
     const employee_data = organizeEmployeeData(data, edata);
