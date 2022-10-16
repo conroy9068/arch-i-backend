@@ -301,7 +301,8 @@ const getAllEmployee = async (req, res) => {
       .subtract(7, "days")
       .format("YYYY-MM-DD")
       .toString();
-
+    const employee = req.query.employee;
+    const project = req.query.project;
     const sdate = req.query.sdate || pastSeven;
     const edate = req.query.edate || today;
 
