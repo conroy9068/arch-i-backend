@@ -20,7 +20,7 @@ const getHoursformTime = (stime, etime) => {
     hour_minute = parseFloat(h + "." + m);
   }
 
-  return parseFloat(hour_minute.toFixed(2));
+  return hour_minute.toFixed(2);
 };
 
 //organizing data
@@ -94,8 +94,9 @@ const updateEmployee_hour = async (req, res) => {
         date: req.body.date,
       },
     });
-    const hour_minute = parseFloat(
-      getHoursformTime(info.dataValues.start_time, req.body.end_time)
+    const hour_minute = getHoursformTime(
+      info.dataValues.start_time,
+      req.body.end_time
     );
     try {
       const data = await Employee_Hour.update(
@@ -132,9 +133,7 @@ const updateEmployee_hour = async (req, res) => {
 const createEmployee_hour = async (req, res) => {
   let hour_minute = 0;
   if (req.body.end_time) {
-    hour_minute = parseFloat(
-      getHoursformTime(req.body.start_time, req.body.end_time)
-    );
+    hour_minute = getHoursformTime(req.body.start_time, req.body.end_time);
   }
   try {
     const data = await Employee_Hour.create({
@@ -217,7 +216,7 @@ const calculateHour = (data) => {
   data.forEach((d) => {
     total_hours = total_hours + d.dataValues.hours;
   });
-  return parseFloat(total_hours.toFixed(2));
+  return total_hours.toFixed(2);
 };
 const organizeData = (data, edata) => {
   const employee_data = {
@@ -367,7 +366,7 @@ const editEmployee_hour = async (req, res) => {
 
     const stime = req.body.start_time || info.dataValues.start_time;
     const etime = req.body.end_time || info.dataValues.end_time;
-    const hour_minute = parseFloat(getHoursformTime(stime, etime));
+    const hour_minute = getHoursformTime(stime, etime);
     const data = await Employee_Hour.update(
       {
         employee_id: req.body.employee_id,
