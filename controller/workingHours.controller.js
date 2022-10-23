@@ -346,10 +346,11 @@ const getAllEmployee = async (req, res) => {
 };
 
 const editEmployee_hour = async (req, res) => {
-  const modifiedDate = moment(req.body.start_time)
-    .format("YYYY-MM-DD")
-    .toString();
+  console.log(req.body, req.params);
   try {
+    const modifiedDate = moment(req.body.start_time)
+      .format("YYYY-MM-DD")
+      .toString();
     const data = await Employee_Hour.update(
       {
         employee_id: req.body.employee_id,
@@ -363,13 +364,14 @@ const editEmployee_hour = async (req, res) => {
         where: {
           project_id: req.params.pid,
           employee_id: req.params.eid,
-          date: modifiedDate,
+          date: modifiedDate || req.body.date,
         },
       }
     );
     if (data[0] === 0) {
       res.status(404).json({
         status: false,
+        message: "Could not update date",
       });
     } else {
       res.status(200).json({
