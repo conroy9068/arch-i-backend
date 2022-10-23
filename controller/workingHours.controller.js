@@ -346,7 +346,6 @@ const getAllEmployee = async (req, res) => {
 };
 
 const editEmployee_hour = async (req, res) => {
-  console.log(req.body, req.params);
   try {
     const modifiedDate = moment(req.body.start_time)
       .format("YYYY-MM-DD")
