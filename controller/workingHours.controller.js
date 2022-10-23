@@ -81,7 +81,6 @@ const findMissingDate = (data, sd, ed) => {
 
 const updateEmployee_hour = async (req, res) => {
   try {
-    console.log(req.body, req.params);
     const info = await Employee_Hour.findOne({
       where: {
         employee_id: req.params.eid,
@@ -89,40 +88,34 @@ const updateEmployee_hour = async (req, res) => {
         date: req.body.date,
       },
     });
-    let hour_minute;
-    if (req.body.start_time && req.body.end_time) {
-      hour_minute = getHoursformTime(req.body.start_time, req.body.start_time);
-    } else if (req.body.end_time) {
-      hour_minute = getHoursformTime(
-        info.dataValues.start_time,
-        req.body.end_time
-      );
-    } else if (req.body.start_time) {
-      hour_minute = getHoursformTime(
-        req.body.start_time,
-        info.dataValues.end_time
-      );
-    }
-    const data = await Employee_Hour.update(
-      {
-        employee_id: req.body.employee_id,
-        date: req.body.date,
-        start_time: req.body.start_time,
-        end_time: req.body.end_time,
-        hours: hour_minute,
-      },
-      {
-        where: {
-          project_id: req.params.pid,
-          employee_id: req.params.eid,
-          date: req.body.date,
-        },
-      }
+    const hour_minute = getHoursformTime(
+      info.dataValues.start_time,
+      req.body.end_time
     );
-    res.status(200).json({
-      status: true,
-      message: data,
-    });
+    try {
+      const data = await Employee_Hour.update(
+        {
+          end_time: req.body.end_time,
+          hours: hour_minute,
+        },
+        {
+          where: {
+            project_id: req.params.pid,
+            employee_id: req.params.eid,
+            date: req.body.date,
+          },
+        }
+      );
+      res.status(200).json({
+        status: true,
+        message: data,
+      });
+    } catch (err) {
+      res.status(500).json({
+        status: false,
+        message: `${err} Something went wrong`,
+      });
+    }
   } catch (err) {
     res.status(500).json({
       status: false,
