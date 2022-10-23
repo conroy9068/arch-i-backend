@@ -370,7 +370,7 @@ const editEmployee_hour = async (req, res) => {
     if (data[0] === 0) {
       res.status(404).json({
         status: false,
-        message: "Could not update date",
+        message: "Could not update data",
       });
     } else {
       res.status(200).json({
