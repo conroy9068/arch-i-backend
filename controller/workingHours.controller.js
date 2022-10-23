@@ -81,6 +81,7 @@ const findMissingDate = (data, sd, ed) => {
 
 const updateEmployee_hour = async (req, res) => {
   try {
+    console.log(req.body, req.params);
     const info = await Employee_Hour.findOne({
       where: {
         employee_id: req.params.eid,
