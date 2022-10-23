@@ -350,6 +350,17 @@ const editEmployee_hour = async (req, res) => {
     const modifiedDate = moment(req.body.start_time)
       .format("YYYY-MM-DD")
       .toString();
+    const info = await Employee_Hour.findOne({
+      where: {
+        employee_id: req.params.eid,
+        project_id: req.params.pid,
+        date: req.body.date,
+      },
+    });
+
+    const stime = req.body.start_time || info.dataValues.start_time;
+    const etime = req.body.end_time || info.dataValues.end_time;
+    const hour_minute = getHoursformTime(stime, etime);
     const data = await Employee_Hour.update(
       {
         employee_id: req.body.employee_id,
@@ -357,7 +368,7 @@ const editEmployee_hour = async (req, res) => {
         date: req.body.date,
         start_time: req.body.start_time,
         end_time: req.body.end_time,
-        hours: req.body.hours,
+        hours: hour_minute,
       },
       {
         where: {
