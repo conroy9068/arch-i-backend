@@ -50,14 +50,6 @@ const manipulateData = (data) => {
           } else {
             const index = cd.working_date.indexOf(d.dataValues.date);
             cd.hours[index] = cd.hours[index] + d.dataValues.hours;
-            let hour_minute = 0;
-            const h = parseInt(duration / 60);
-            const m = parseInt(duration % 60);
-            if (m < 10) {
-              hour_minute = parseFloat(h + ".0" + m);
-            } else {
-              hour_minute = parseFloat(h + "." + m);
-            }
           }
         }
       });
@@ -349,6 +341,7 @@ const getAllEmployee = async (req, res) => {
       query.project_id = project;
     }
 
+    const info = await Employee_Hour.findAll();
     const edata = await Employee.findAll();
     const data = await Employee_Hour.findAll({
       where: query,
@@ -360,7 +353,7 @@ const getAllEmployee = async (req, res) => {
     res.status(200).json({
       status: true,
       data: employee_data,
-      total: edata.length,
+      total: info.length,
     });
   } catch (err) {
     res.status(500).json({
