@@ -360,7 +360,7 @@ const editEmployee_hour = async (req, res) => {
 
     const stime = req.body.start_time || info.dataValues.start_time;
     const etime = req.body.end_time || info.dataValues.end_time;
-    const hour_minute = 0;
+    const hour_minute = getHoursformTime(stime, etime);
     const data = await Employee_Hour.update(
       {
         employee_id: req.body.employee_id,
