@@ -20,20 +20,10 @@ const createEmployee = async (req, res) => {
 
 const getAllEmployee = async (req, res) => {
   try {
-    let skipdata = 0;
-    let maxlimit = 10;
-    if (req.query.limit) {
-      maxlimit = req.query.limit;
-    }
-    if (req.query.page && req.query.page > 0) {
-      skipdata = (req.query.page - 1) * maxlimit;
-    }
-    const info = await Employee.findAll();
-    const data = await Employee.findAll({ offset: skipdata, limit: maxlimit });
+    const data = await Employee.findAll();
     res.status(200).json({
       status: true,
       data: data,
-      total: info.length,
     });
   } catch (err) {
     res.status(500).json({

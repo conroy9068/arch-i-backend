@@ -50,7 +50,14 @@ const manipulateData = (data) => {
           } else {
             const index = cd.working_date.indexOf(d.dataValues.date);
             cd.hours[index] = cd.hours[index] + d.dataValues.hours;
-            console.log(cd.hours[index]);
+            let hour_minute = 0;
+            const h = parseInt(duration / 60);
+            const m = parseInt(duration % 60);
+            if (m < 10) {
+              hour_minute = parseFloat(h + ".0" + m);
+            } else {
+              hour_minute = parseFloat(h + "." + m);
+            }
           }
         }
       });
@@ -303,6 +310,14 @@ const organizeEmployeeData = (data, edata) => {
 
 const getAllEmployee = async (req, res) => {
   try {
+    let skipdata = 0;
+    let maxlimit = 5;
+    if (req.query.limit) {
+      maxlimit = req.query.limit;
+    }
+    if (req.query.page && req.query.page > 0) {
+      skipdata = (req.query.page - 1) * maxlimit;
+    }
     const today = moment().format("YYYY-MM-DD").toString();
     const pastSeven = moment(today)
       .subtract(7, "days")
@@ -337,12 +352,15 @@ const getAllEmployee = async (req, res) => {
     const edata = await Employee.findAll();
     const data = await Employee_Hour.findAll({
       where: query,
+      offset: skipdata,
+      limit: maxlimit,
       include: [{ model: db.project, as: "project" }],
     });
     const employee_data = organizeEmployeeData(data, edata);
     res.status(200).json({
       status: true,
       data: employee_data,
+      total: edata.length,
     });
   } catch (err) {
     res.status(500).json({
