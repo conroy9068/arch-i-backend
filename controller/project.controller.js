@@ -2,7 +2,6 @@ const db = require("../database/config");
 Project = db.project;
 
 const createProject = async (req, res) => {
-  console.log(req.body);
   try {
     await Project.create({
       project_name: req.body.name,
