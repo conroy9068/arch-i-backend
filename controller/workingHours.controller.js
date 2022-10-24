@@ -11,10 +11,16 @@ const getHoursformTime = (stime, etime) => {
     moment(stime).format(dateFormat),
     "minutes"
   );
-  const hour_minute = parseFloat(
-    parseInt(duration / 60) + "." + parseInt(duration % 60)
-  );
-  return hour_minute.toFixed(2);
+  let hour_minute = 0;
+  const h = parseInt(duration / 60);
+  const m = parseInt(duration % 60);
+  if (m < 10) {
+    hour_minute = parseFloat(h + ".0" + m);
+  } else {
+    hour_minute = parseFloat(h + "." + m);
+  }
+
+  return parseFloat(hour_minute.toFixed(2));
 };
 
 //organizing data
@@ -347,9 +353,6 @@ const getAllEmployee = async (req, res) => {
 
 const editEmployee_hour = async (req, res) => {
   try {
-    const modifiedDate = moment(req.body.start_time)
-      .format("YYYY-MM-DD")
-      .toString();
     const info = await Employee_Hour.findOne({
       where: {
         employee_id: req.params.eid,
@@ -357,15 +360,11 @@ const editEmployee_hour = async (req, res) => {
         date: req.body.date,
       },
     });
-
     const stime = req.body.start_time || info.dataValues.start_time;
     const etime = req.body.end_time || info.dataValues.end_time;
     const hour_minute = getHoursformTime(stime, etime);
     const data = await Employee_Hour.update(
       {
-        employee_id: req.body.employee_id,
-        project_id: req.body.project_id,
-        date: req.body.date,
         start_time: req.body.start_time,
         end_time: req.body.end_time,
         hours: hour_minute,
@@ -374,10 +373,11 @@ const editEmployee_hour = async (req, res) => {
         where: {
           project_id: req.params.pid,
           employee_id: req.params.eid,
-          date: modifiedDate || req.body.date,
+          date: req.body.date,
         },
       }
     );
+
     if (data[0] === 0) {
       res.status(404).json({
         status: false,
@@ -386,12 +386,13 @@ const editEmployee_hour = async (req, res) => {
     } else {
       res.status(200).json({
         status: true,
+        data: data,
       });
     }
   } catch (err) {
     res.status(500).json({
       status: false,
-      message: `${err} Something went wrong`,
+      message: `${err} Something missing`,
     });
   }
 };
