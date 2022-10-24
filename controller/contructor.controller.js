@@ -97,7 +97,7 @@ const getContructorListAdmin = async (req, res) => {
     const data = await Contructor.findAll({
       order: [["createdAt", "DESC"]],
       offset: skipdata,
-      limit: req.query.limit,
+      limit: limit,
     });
     formatTime(data);
     res.status(200).json({
