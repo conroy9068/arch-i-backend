@@ -50,6 +50,21 @@ const manipulateData = (data) => {
           } else {
             const index = cd.working_date.indexOf(d.dataValues.date);
             cd.hours[index] = cd.hours[index] + d.dataValues.hours;
+
+            let hm = cd.hours[index].toString().split(".");
+            if (hm[1] > 59) {
+              let hour_minute = 0;
+              let h = parseInt(hm[0]);
+              let hh = parseInt(hm[1] / 60);
+              let nm = parseInt(hm[1] % 60);
+              h = h + hh;
+              if (nm < 10) {
+                hour_minute = parseFloat(h + ".0" + nm);
+              } else {
+                hour_minute = parseFloat(h + "." + nm);
+              }
+              cd.hours[index] = hour_minute;
+            }
           }
         }
       });
@@ -195,10 +210,8 @@ const getHoursByEmployee = async (req, res) => {
       where: query,
       order: [["date", "ASC"]],
     });
-
     const chartData = manipulateData(data);
     findMissingDate(chartData, sdate, edate);
-
     res.status(200).json({
       status: true,
       ChartData: chartData,
