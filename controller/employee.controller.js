@@ -28,10 +28,12 @@ const getAllEmployee = async (req, res) => {
     if (req.query.page && req.query.page > 0) {
       skipdata = (req.query.page - 1) * maxlimit;
     }
+    const info = await Employee.findAll();
     const data = await Employee.findAll({ offset: skipdata, limit: maxlimit });
     res.status(200).json({
       status: true,
       data: data,
+      total: info.length,
     });
   } catch (err) {
     res.status(500).json({

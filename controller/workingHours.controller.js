@@ -50,6 +50,7 @@ const manipulateData = (data) => {
           } else {
             const index = cd.working_date.indexOf(d.dataValues.date);
             cd.hours[index] = cd.hours[index] + d.dataValues.hours;
+            console.log(cd.hours[index]);
           }
         }
       });
