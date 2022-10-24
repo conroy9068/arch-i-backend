@@ -87,9 +87,9 @@ const getContructorList = async (req, res) => {
 const getContructorListAdmin = async (req, res) => {
   try {
     let skipdata = 0;
-    let limit = 10;
+    let maxlimit = 10;
     if (req.query.limit) {
-      limit = req.query.limit;
+      maxlimit = req.query.limit;
     }
     if (req.query.page) {
       skipdata = req.query.page * limit;
@@ -97,7 +97,7 @@ const getContructorListAdmin = async (req, res) => {
     const data = await Contructor.findAll({
       order: [["createdAt", "DESC"]],
       offset: skipdata,
-      limit: limit,
+      limit: maxlimit,
     });
     formatTime(data);
     res.status(200).json({
