@@ -294,6 +294,7 @@ const organizeEmployeeData = (data, edata) => {
     }
 
     const info = {
+      id: d.dataValues.id,
       project_id: d.dataValues.project.dataValues.project_id,
       project_name: d.dataValues.project.dataValues.project_name,
       start_time: stime,
@@ -426,9 +427,7 @@ const deleteEmployee_hour = async (req, res) => {
   try {
     const data = await Employee_Hour.destroy({
       where: {
-        project_id: req.params.pid,
-        employee_id: req.params.eid,
-        date: req.params.dt,
+        id: req.params.id,
       },
     });
     if (data === 0) {
