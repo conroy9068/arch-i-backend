@@ -341,7 +341,7 @@ const getAllEmployee = async (req, res) => {
       query.project_id = project;
     }
 
-    const info = await Employee_Hour.findAll();
+    const info = await Employee_Hour.findAll({ where: query });
     const edata = await Employee.findAll();
     const data = await Employee_Hour.findAll({
       where: query,
