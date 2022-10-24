@@ -216,7 +216,7 @@ const calculateHour = (data) => {
   data.forEach((d) => {
     total_hours = total_hours + d.dataValues.hours;
   });
-  return total_hours.toFixed(2);
+  return parseFloat(total_hours.toFixed(2));
 };
 const organizeData = (data, edata) => {
   const employee_data = {
