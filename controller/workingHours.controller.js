@@ -11,15 +11,9 @@ const getHoursformTime = (stime, etime) => {
     moment(stime).format(dateFormat),
     "minutes"
   );
-  let hour_minute = 0;
-  const h = parseInt(duration / 60);
-  const m = parseInt(duration % 60);
-  if (m < 10) {
-    hour_minute = parseFloat(h + ".0" + m);
-  } else {
-    hour_minute = parseFloat(h + "." + m);
-  }
-
+  const hour_minute = parseFloat(
+    parseInt(duration / 60) + "." + parseInt(duration % 60)
+  );
   return hour_minute.toFixed(2);
 };
 
