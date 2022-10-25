@@ -294,7 +294,7 @@ const organizeData = (data, edata) => {
     };
     if (!d.dataValues.end_time) {
       employee_data.project = pdata;
-      return;
+      return employee_data;
     }
   });
   return employee_data;
