@@ -53,8 +53,6 @@ const manipulateData = (data) => {
               (cd.hours[index] + d.dataValues.hours).toFixed(2)
             );
 
-            console.log(cd.hours[index]);
-
             let hm = cd.hours[index].toString().split(".");
             if (hm[1] && hm[1].length > 2) {
               hm[1] = hm[1].substring(0, 2);
