@@ -241,7 +241,7 @@ const calculateHour = (data) => {
       } else {
         hour_minute = parseFloat(h + "." + nm);
       }
-      total_hours = hour_minute;
+      total_hours = parseFloat(hour_minute.toFixed(2));
     }
   });
   return parseFloat(total_hours.toFixed(2));
