@@ -228,14 +228,17 @@ const calculateHour = (data) => {
   let total_hours = 0;
   data.forEach((d) => {
     total_hours = total_hours + d.dataValues.hours;
-
     let hm = total_hours.toString().split(".");
+    if (hm[1].length > 2) {
+      hm[1] = hm[1].substring(0, 2);
+    }
     if (hm[1] > 59) {
       let hour_minute = 0;
       let h = parseInt(hm[0]);
       let hh = parseInt(hm[1] / 60);
       let nm = parseInt(hm[1] % 60);
       h = h + hh;
+
       if (nm < 10) {
         hour_minute = parseFloat(h + ".0" + nm);
       } else {
