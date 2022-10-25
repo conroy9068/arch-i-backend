@@ -257,6 +257,13 @@ const calculateHour = (data) => {
         hour_minute = parseFloat(h + "." + nm);
       }
       total_hours = parseFloat(hour_minute.toFixed(2));
+    } else {
+      if (hm[1] < 10) {
+        hour_minute = parseFloat(hm[0] + ".0" + hm[1]);
+      } else {
+        hour_minute = parseFloat(hm[0] + "." + hm[1]);
+      }
+      cd.hours[index] = hour_minute;
     }
   });
   return parseFloat(total_hours.toFixed(2));
