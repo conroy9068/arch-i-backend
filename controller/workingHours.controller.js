@@ -52,7 +52,7 @@ const manipulateData = (data) => {
             cd.hours[index] = cd.hours[index] + d.dataValues.hours;
 
             let hm = cd.hours[index].toString().split(".");
-            if (hm[1].length > 2) {
+            if (hm[1] && hm[1].length > 2) {
               hm[1] = hm[1].substring(0, 2);
             }
             if (hm[1] > 59) {
@@ -232,7 +232,7 @@ const calculateHour = (data) => {
   data.forEach((d) => {
     total_hours = total_hours + d.dataValues.hours;
     let hm = total_hours.toString().split(".");
-    if (hm[1].length > 2) {
+    if (hm[1] && hm[1].length > 2) {
       hm[1] = hm[1].substring(0, 2);
     }
     if (hm[1] > 59) {
