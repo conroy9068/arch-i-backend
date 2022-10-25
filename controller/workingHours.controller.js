@@ -286,6 +286,7 @@ const organizeData = (data, edata) => {
     const time = moment(d.dataValues.start_time)
       .format("YYYY-MM-DD H:m:s")
       .toString();
+
     const pdata = {
       project_id: d.dataValues.project.dataValues.project_id,
       project_name: d.dataValues.project.dataValues.project_name,
@@ -293,8 +294,7 @@ const organizeData = (data, edata) => {
     };
     if (!d.dataValues.end_time) {
       employee_data.project = pdata;
-    } else {
-      employee_data.project = null;
+      return;
     }
   });
   return employee_data;
