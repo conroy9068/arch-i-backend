@@ -70,6 +70,7 @@ const manipulateData = (data) => {
               }
               cd.hours[index] = hour_minute;
             } else {
+              let hour_minute = 0;
               if (hm[1] > 0 && hm[1] < 10) {
                 hour_minute = parseFloat(hm[0] + ".0" + hm[1]);
               } else if (hm[1] === 0) {
@@ -261,6 +262,7 @@ const calculateHour = (data) => {
       }
       total_hours = parseFloat(hour_minute.toFixed(2));
     } else {
+      let hour_minute = 0;
       if (hm[1] > 0 && hm[1] < 10) {
         hour_minute = parseFloat(hm[0] + ".0" + hm[1]);
       } else if (hm[1] === 0) {
