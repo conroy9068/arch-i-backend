@@ -52,6 +52,7 @@ const manipulateData = (data) => {
             cd.hours[index] = cd.hours[index] + d.dataValues.hours;
 
             let hm = cd.hours[index].toString().split(".");
+
             if (hm[1] && hm[1].length > 2) {
               hm[1] = hm[1].substring(0, 2);
             }
@@ -65,6 +66,13 @@ const manipulateData = (data) => {
                 hour_minute = parseFloat(h + ".0" + nm);
               } else {
                 hour_minute = parseFloat(h + "." + nm);
+              }
+              cd.hours[index] = hour_minute;
+            } else {
+              if (hm[1] < 10) {
+                hour_minute = parseFloat(hm[0] + ".0" + hm[1]);
+              } else {
+                hour_minute = parseFloat(hm[0] + "." + hm[1]);
               }
               cd.hours[index] = hour_minute;
             }
@@ -231,6 +239,7 @@ const calculateHour = (data) => {
   let total_hours = 0;
   data.forEach((d) => {
     total_hours = total_hours + d.dataValues.hours;
+
     let hm = total_hours.toString().split(".");
     if (hm[1] && hm[1].length > 2) {
       hm[1] = hm[1].substring(0, 2);
