@@ -69,16 +69,6 @@ const manipulateData = (data) => {
                 hour_minute = parseFloat(h + "." + nm);
               }
               cd.hours[index] = hour_minute;
-            } else {
-              let hour_minute = 0;
-              if (hm[1] > 0 && hm[1] < 10) {
-                hour_minute = parseFloat(hm[0] + ".0" + hm[1]);
-              } else if (hm[1] === 0) {
-                hour_minute = parseFloat(hm[0] + ".00");
-              } else {
-                hour_minute = parseFloat(hm[0] + "." + hm[1]);
-              }
-              cd.hours[index] = hour_minute;
             }
           }
         }
@@ -243,7 +233,7 @@ const calculateHour = (data) => {
   let total_hours = 0;
   data.forEach((d) => {
     total_hours = parseFloat((total_hours + d.dataValues.hours).toFixed(2));
-
+    console.log(total_hours, d.dataValues.hours);
     let hm = total_hours.toString().split(".");
     if (hm[1] && hm[1].length > 2) {
       hm[1] = hm[1].substring(0, 2);
@@ -261,16 +251,6 @@ const calculateHour = (data) => {
         hour_minute = parseFloat(h + "." + nm);
       }
       total_hours = parseFloat(hour_minute.toFixed(2));
-    } else {
-      let hour_minute = 0;
-      if (hm[1] > 0 && hm[1] < 10) {
-        hour_minute = parseFloat(hm[0] + ".0" + hm[1]);
-      } else if (hm[1] === 0) {
-        hour_minute = parseFloat(hm[0] + ".00");
-      } else {
-        hour_minute = parseFloat(hm[0] + "." + hm[1]);
-      }
-      total_hours = hour_minute;
     }
   });
   return parseFloat(total_hours.toFixed(2));
