@@ -49,7 +49,9 @@ const manipulateData = (data) => {
             cd.working_date.push(d.dataValues.date);
           } else {
             const index = cd.working_date.indexOf(d.dataValues.date);
-            cd.hours[index] = (cd.hours[index] + d.dataValues.hours).toFixed(2);
+            cd.hours[index] = parseFloat(
+              (cd.hours[index] + d.dataValues.hours).toFixed(2)
+            );
 
             let hm = cd.hours[index].toString().split(".");
 
@@ -228,9 +230,10 @@ const getHoursByEmployee = async (req, res) => {
 const calculateHour = (data) => {
   let total_hours = 0;
   data.forEach((d) => {
-    total_hours = (total_hours + d.dataValues.hours).toFixed(2);
+    total_hours = parseFloat((total_hours + d.dataValues.hours).toFixed(2));
 
     let hm = total_hours.toString().split(".");
+
     if (hm[1] > 59) {
       let hour_minute = 0;
       let h = parseInt(hm[0]);
