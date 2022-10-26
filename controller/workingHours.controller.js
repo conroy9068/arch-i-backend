@@ -53,7 +53,7 @@ const manipulateData = (data) => {
               (cd.hours[index] + d.dataValues.hours).toFixed(2)
             );
 
-            let hm = cd.hours[index].toString().split(".");
+            let hm = cd.hours[index].toFixed(2).split(".");
 
             if (hm[1] > 59) {
               let hour_minute = 0;
@@ -232,7 +232,7 @@ const calculateHour = (data) => {
   data.forEach((d) => {
     total_hours = parseFloat((total_hours + d.dataValues.hours).toFixed(2));
 
-    let hm = total_hours.toString().split(".");
+    let hm = total_hours.toFixed(2).split(".");
 
     if (hm[1] > 59) {
       let hour_minute = 0;
